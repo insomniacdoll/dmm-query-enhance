@@ -21,12 +21,15 @@ class FinalizerPipeline(object):
     productId = item['productId']
     filename = productId + ".json"
     directoryPrefix = item['directory']
+    publisher = item['publisher']
+    id = item['id']
     movieFilename = directoryPrefix + '/' + item['filename']
     actress = item['actress']
     title = item['title']
-    directory = directoryPrefix + '/' + actress + u'/[' + productId + u']' + title
+    # directory = directoryPrefix + '/' + actress + u'/[' + productId + u']' + title
+    directory = directoryPrefix + '/' + actress + u'/' + str(id).upper() + u'-' + publisher + u' ' + title
     call(['mv', filename, directory])
-    call(['mv', movieFilename, directory])
+    # call(['mv', movieFilename, directory])
     return item
 
 class ContentCreatorPipeline(object):
@@ -37,10 +40,13 @@ class ContentCreatorPipeline(object):
     productId = item['productId']
     title = item['title']
     thumbnailList = item['thumbnails']
-    directory = directoryPrefix + '/' + actress + u'/[' + productId + u']' + title
+    publisher = item['publisher']
+    id = item['id']
+    #actressDir = directoryPrefix + '/' + actress
+    directory = directoryPrefix + '/' + actress + u'/' + str(id).upper() + u'-' + publisher + u' ' + title
     print "Creating directory for [" + productId + "]: " + directory
-    call(["mkdir", actress])
-    call(["mkdir", directory])
+    #call(["mkdir", actress])
+    call(["mkdir", directory, "-p"])
     print "Fetching cover..."
     call(['wget', cover, "-N", "--directory-prefix=" + directory])
     print "Fetching thumbnails..."

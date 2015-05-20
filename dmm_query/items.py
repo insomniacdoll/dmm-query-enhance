@@ -17,4 +17,6 @@ class DmmQueryItem(Item):
     productDmmId = Field()
     filename = Field()
     directory = Field()
+    publisher = Field()
+    id = Field()
 

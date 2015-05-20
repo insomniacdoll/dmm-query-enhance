@@ -12,12 +12,14 @@ class DmmQuerySpider(Spider):
     "http://www.dmm.co.jp/search/=/searchstr=rbd%20550/n1=FgRCTw9VBA4GAVhfWkIHWw__/n2=Aw1fVhQKX1ZRAlhMUlo5QQgBU1lR/"
   ]
   # directory = "/home/pi/dmm_query/dest"
-  directory = "/C/Download/zAdult/temp"
+  directory = "/cygdrive/c/Download/zAdult/temp"
 
   def __init__(self, publisher=None, id=None, *args, **kwargs):
     super(DmmQuerySpider, self).__init__(*args, **kwargs)
     if publisher != None and id != None:
       self.start_urls = [self.start_url_template % (publisher, id)]
+      self.publisher = publisher
+      self.id = id
 
 
   def parse(self, response):
@@ -33,6 +35,8 @@ class DmmQuerySpider(Spider):
     sel = Selector(response)
     items = []
     item = DmmQueryItem()
+    item['publisher'] = self.publisher
+    item['id'] = self.id
     item['link'] = response.url
     item['filename'] = "_NonExists"
     item['directory'] = self.directory
